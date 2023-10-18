@@ -1,0 +1,64 @@
+<div class="card shadow-lg mt-5 border-0">
+  <div class="card-header text-center py-5 px-5 border-0">
+    <h1 class="display-6 fw-bold">Todo List</h1>
+  </div>
+  <div class="card-body p-4">
+    <ul class="list-group">
+      <div class="form-group">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control border-1 mb-2 py-2 shadow-sm"
+            aria-describedby="search"
+            placeholder="Search notes"
+            #filter
+            (input)="filterResults(filter.value)"
+          />
+        </div>
+      </div>
+      <li class="list-group-item mb-2 border-1 rounded-1">
+        <div class="input-group" (keyup.enter)="addNotes(title)">
+          <input
+            type="text"
+            placeholder="Enter a task..."
+            #title
+            class="form-control border-0 py-2 shadow-none"
+          />
+          <button class="btn text-success border-0" (click)="addNotes(title)">
+            <i class="fa-solid fa-circle-plus fa-xl"></i>
+          </button>
+        </div>
+      </li>
+      <button
+        class="text-success py-1 border-0 mb-2 bg-white shadow-sm rounded-1"
+        (click)="completeAllTasks(this.notes)"
+      >
+        Complete All Tasks
+      </button>
+      <li
+        class="list-group-item mb-2 border-1 border-radius-1 rounded-1"
+        *ngFor="let note of filteredNotes"
+      >
+        <span>
+          <i
+            class="text-success"
+            (click)="
+              updateNote({
+                id: note.id,
+                title: note.title,
+                isDone: !note.isDone
+              })
+            "
+            [ngClass]="
+              note.isDone ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'
+            "
+          ></i>
+          {{ note.title }}
+          <span class="float-end text-secondary">
+            <i class="fa-solid fa-trash-can" (click)="deleteNotes(note.id)"></i>
+          </span>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
