@@ -15,7 +15,7 @@ export class AppComponent {
   notes: Note[] = [];
 
   refreshNotes() {
-    this.service.getNotes().subscribe((res) => {
+    this.service.getNotes().subscribe((res: any) => {
       const response = res as Note[];
 
       this.notes = response.sort((a: any, b: any) => a.isDone - b.isDone);

@@ -15,7 +15,7 @@ export class TodoComponent {
   filteredNotes: any = [];
 
   refreshNotes() {
-    this.service.getNotes().subscribe((res) => {
+    this.service.getNotes().subscribe((res: any) => {
       let response = res;
       const sortedResponse = response.sort(
         (a: any, b: any) => a.isDone - b.isDone
