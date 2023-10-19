@@ -1,5 +1,17 @@
 # TodoListWithFirebase
 
+Simple To Do List app utilising Angular and Firebase.
+### Functionality:
+- creation of new tasks
+- checking off of tasks
+- sorting of tasks
+- filtering of tasks
+- searching of tasks
+- deletion of tasks
+
+#### View the project at:
+[To Do List](https://todo-list-with-firebase-oagr.vercel.app/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.6.
 
 ## Development server
