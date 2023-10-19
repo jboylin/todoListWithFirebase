@@ -12,7 +12,7 @@
             aria-describedby="search"
             placeholder="Search notes"
             #filter
-            (input)="filterResults(filter.value)"
+            (input)="searchResults(filter.value)"
           />
         </div>
       </div>
@@ -30,11 +30,49 @@
         </div>
       </li>
       <button
-        class="text-success py-1 border-0 mb-2 bg-white shadow-sm rounded-1"
+        class="form-control text-white py-1 border-1 mb-2 bg-success rounded-1"
         (click)="completeAllTasks(this.notes)"
       >
         Complete All Tasks
+        <span class="float-end">
+          <i class="fa-brands fa-optin-monster fa-l text-white me-1"></i>
+        </span>
       </button>
+      <div class="list-group-item mb-2 p-2">
+        <span class="p-2" style="border: 1px solid #dee2e6; border-radius: 5px">
+          Filter By:
+          <i
+            class="fa-regular fa-circle text-success"
+            (click)="filterNotes('unchecked')"
+          ></i>
+          <i
+            class="fa-solid fa-circle-check text-success ms-2"
+            (click)="filterNotes('checked')"
+          ></i>
+          <button class="btn border-0" (click)="filterNotes('all')">All</button>
+        </span>
+
+        <span
+          class="p-2 ms-3"
+          style="border: 1px solid #dee2e6; border-radius: 5px"
+        >
+          Sort By:
+          <i
+            class="fa-regular fa-circle text-success"
+            (click)="refreshNotes(false)"
+          ></i>
+          <i
+            class="fa-solid fa-circle-check text-success ms-2"
+            (click)="refreshNotes(true)"
+          ></i>
+        </span>
+      </div>
+      <li
+        class="list-group-item mb-2 border-1 border-radius-1 rounded-1"
+        *ngIf="!filteredNotes.length"
+      >
+        Let's plan your day!...
+      </li>
       <li
         class="list-group-item mb-2 border-1 border-radius-1 rounded-1"
         *ngFor="let note of filteredNotes"
@@ -46,7 +84,7 @@
               updateNote({
                 id: note.id,
                 title: note.title,
-                isDone: !note.isDone
+                isDone: !note.isDone,
               })
             "
             [ngClass]="
@@ -59,6 +97,15 @@
           </span>
         </span>
       </li>
+      <button
+        class="form-control py-1 border-0 mb-2 bg-danger rounded-1 text-white fs-6"
+        (click)="deleteAllCompletedTasks(this.notes)"
+      >
+        Delete Completed Tasks
+        <span class="float-end">
+          <i class="fa-brands fa-optin-monster fa-l text-white me-1"></i>
+        </span>
+      </button>
     </ul>
   </div>
 </div>

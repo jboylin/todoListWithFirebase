@@ -14,15 +14,17 @@ export class TodoComponent {
 
   filteredNotes: any = [];
 
-  refreshNotes() {
+  refreshNotes(sort?: boolean) {
     this.service.getNotes().subscribe((res: any) => {
       let response = res;
-      const sortedResponse = response.sort(
-        (a: any, b: any) => a.isDone - b.isDone
-      );
+      let sortedResponse;
+      if (!sort) {
+        sortedResponse = response.sort((a: any, b: any) => a.isDone - b.isDone);
+      } else {
+        sortedResponse = response.sort((a: any, b: any) => b.isDone - a.isDone);
+      }
       this.notes = sortedResponse;
       this.filteredNotes = sortedResponse;
-      console.log(res);
     });
   }
 
@@ -41,7 +43,6 @@ export class TodoComponent {
 
   deleteNotes(id: string) {
     this.service.deleteNote(id).then((res) => {
-      console.log(res);
       this.refreshNotes();
     });
   }
@@ -52,7 +53,6 @@ export class TodoComponent {
         id: note.id,
         title: note.title,
         isDone: true,
-        description: note.description ?? '',
       };
 
       this.service.updateNote(updatedNote);
@@ -60,15 +60,23 @@ export class TodoComponent {
     alert('Well done! You completed all of your tasks!');
   }
 
-  updateNote(note: Note) {
-    this.service.updateNote(note).then(() => {
+  deleteAllCompletedTasks(notes: Note[]) {
+    notes.forEach((note: Note) => {
       if (note.isDone) {
-        alert('Well done!');
+        this.service.deleteNote(note.id);
       }
     });
   }
 
-  filterResults(text: string) {
+  updateNote(note: Note) {
+    this.service.updateNote(note).then(() => {
+      if (note.isDone) {
+        alert(`Well done you completed your task!`);
+      }
+    });
+  }
+
+  searchResults(text: string) {
     if (!text) {
       this.filteredNotes = this.notes;
     }
@@ -76,5 +84,19 @@ export class TodoComponent {
     this.filteredNotes = this.notes.filter((note: Note) =>
       note?.title.toLowerCase().includes(text.toLowerCase())
     );
+  }
+
+  filterNotes(filter: string) {
+    if (filter == 'all') {
+      return (this.filteredNotes = this.notes);
+    } else if (filter == 'checked') {
+      this.filteredNotes = this.notes.filter((note: Note) => {
+        return note.isDone;
+      });
+    } else if (filter == 'unchecked') {
+      this.filteredNotes = this.notes.filter((note: Note) => {
+        return !note.isDone;
+      });
+    }
   }
 }

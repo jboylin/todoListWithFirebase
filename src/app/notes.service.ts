@@ -22,7 +22,7 @@ export class NotesService {
   }
 
   addNote(note: string) {
-    let data = { title: note, isDone: false };
+    let data = { title: note, isDone: false, timeCreated: new Date() };
     let notes = collection(this.fs, 'notes');
     return addDoc(notes, data);
   }
@@ -34,6 +34,9 @@ export class NotesService {
 
   updateNote(note: Note) {
     let docRef = doc(this.fs, 'notes/' + note.id);
-    return updateDoc(docRef, { title: note.title, isDone: note.isDone });
+    return updateDoc(docRef, {
+      title: note.title,
+      isDone: note.isDone,
+    });
   }
 }
